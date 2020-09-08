@@ -13,6 +13,7 @@ const defaultConfig = {
     jira_url: 'https://localhost:8080',
     jira_user: 'root',
     jira_password: 'root',
+    jira_token: 'vghaxt63cuTVJYCFS5Je6A23',
     test_revison: '001',
     testEnvironments: '["browser:chrome", "linux"]',
     testsExportedFromTestExecution: true,
@@ -114,11 +115,11 @@ module.exports = function (config) {
         recorder.add('Sending new result to xray', function () {
             new Promise((doneFn, errFn) => {
                 request({
-                    url: config.jira_url + "/rest/raven/1.0/import/execution",
-                    headers: {
-                        "content-type": "application/json",
-                        'Authorization': 'Basic ' + Buffer.from(config.jira_user + ':' + config.jira_password).toString('base64')
-                    },
+                        url: config.jira_url + "/api/v1/import/execution",
+                        headers: {
+                            "content-type": "application/json",
+                            'Authorization': 'Bearer ' + config.jira_token
+                        },
                     method: 'POST',
                     proxy: config.proxy,
                     timeout: config.timeOut,
@@ -126,7 +127,7 @@ module.exports = function (config) {
                 }, function (error, response, body) {
                     if (!error) {
                         if (config.debug) console.log("XRAY RESPONSE=>" + body);
-                        output.print("Tests results sended to XRAY on TestExecution: " + (JSON.parse(body)).testExecIssue.key);
+                        output.print("Tests results sent to XRAY on TestExecution: " + testsResults[0].tags[0].split("@")[1]);
                     } else {
                         if (config.debug) console.log(error);
                         output.print(error);
