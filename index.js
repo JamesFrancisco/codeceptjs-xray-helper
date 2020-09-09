@@ -13,7 +13,7 @@ const defaultConfig = {
     jira_url: 'https://localhost:8080',
     jira_user: 'root',
     jira_password: 'root',
-    jira_token: 'vghaxt63cuTVJYCFS5Je6A23',
+    jira_token: '',
     test_revison: '001',
     testEnvironments: '["browser:chrome", "linux"]',
     testsExportedFromTestExecution: true,
